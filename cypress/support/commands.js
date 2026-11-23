@@ -14,10 +14,13 @@ Cypress.Commands.add('alertaDeveConter', (texto) => {
   cy.get('@alerta').should('have.been.calledWithMatch', texto);
 });
 
-/** Digita e confere o valor: os modais do DemoBlaze às vezes perdem caracteres durante a animação. */
+/**
+ * Preenche um campo e confere o valor.
+ * Os modais do DemoBlaze roubam o foco durante a animação e perdem letras digitadas
+ * (ex.: "Dr. João Silva" virava "Dr. João Sil"). Por isso o valor é definido direto no campo.
+ */
 Cypress.Commands.add('preencher', (seletor, valor) => {
-  cy.get(seletor).should('be.visible').clear();
-  cy.get(seletor).type(valor, { delay: 10 });
+  cy.get(seletor).should('be.visible').invoke('val', valor).trigger('input');
   cy.get(seletor).should('have.value', valor);
 });
 
@@ -30,8 +33,26 @@ Cypress.Commands.add('abrirLoja', () => {
   home.cards().should('have.length.greaterThan', 0);
 });
 
+// A página inicial mostra só os 9 primeiros produtos; os demais ficam na página 2.
+// Entrar pela categoria garante que o produto esteja na tela.
+const CATEGORIA_DO_PRODUTO = {
+  'Samsung galaxy s6': 'Phones',
+  'Nokia lumia 1520': 'Phones',
+  'Nexus 6': 'Phones',
+  'Sony vaio i5': 'Laptops',
+  'MacBook air': 'Laptops',
+  'MacBook Pro': 'Laptops',
+  'Apple monitor 24': 'Monitors',
+  'ASUS Full HD': 'Monitors',
+};
+
 Cypress.Commands.add('abrirProduto', (nome) => {
   cy.abrirLoja();
+  const categoria = CATEGORIA_DO_PRODUTO[nome];
+  if (categoria) {
+    home.categoria(categoria).click();
+    cy.wait('@categoria');
+  }
   home.tituloDoCard(nome).click();
   produto.nome().should('have.text', nome);
 });
