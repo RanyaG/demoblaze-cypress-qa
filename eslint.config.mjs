@@ -2,7 +2,7 @@ import pluginCypress from 'eslint-plugin-cypress';
 import globals from 'globals';
 
 export default [
-  { ignores: ['node_modules/**', 'cypress/reports/**', 'cypress/screenshots/**'] },
+  { ignores: ['node_modules/**', 'cypress/reports/**', 'cypress/screenshots/**', 'cypress/acessibilidade/**'] },
   {
     files: ['cypress/**/*.js'],
     ...pluginCypress.configs.recommended,
@@ -19,7 +19,7 @@ export default [
     },
   },
   {
-    files: ['cypress.config.js'],
+    files: ['cypress.config.js', 'cypress/plugins/**/*.js'],
     languageOptions: { sourceType: 'commonjs', globals: globals.node },
   },
 ];

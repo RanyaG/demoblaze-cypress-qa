@@ -3,9 +3,9 @@
 [![Testes](https://github.com/RanyaG/demoblaze-cypress-qa/actions/workflows/ci.yml/badge.svg)](https://github.com/RanyaG/demoblaze-cypress-qa/actions/workflows/ci.yml)
 ![Cypress](https://img.shields.io/badge/Cypress-16-69D3A7?logo=cypress&logoColor=white)
 
-Projeto de QA para a loja virtual **[DemoBlaze](https://www.demoblaze.com)**: histórias de usuário, casos de teste com técnicas de caixa-preta, testes E2E automatizados com Cypress e bug reports com evidências.
+Projeto de QA para a loja virtual **[DemoBlaze](https://www.demoblaze.com)**: histórias de usuário, casos de teste com técnicas de caixa-preta, testes E2E automatizados com Cypress, auditoria de acessibilidade (WCAG 2.2) e bug reports com evidências.
 
-> **English:** Black-box testing of the DemoBlaze e-commerce: user stories in Gherkin, 20 test cases designed with equivalence partitioning and boundary value analysis, Cypress E2E automation and 9 documented defects (5 high priority) with evidence.
+> **English:** Black-box testing of the DemoBlaze e-commerce: user stories in Gherkin, 20 test cases designed with equivalence partitioning and boundary value analysis, Cypress E2E automation, an automated accessibility audit (axe-core, WCAG 2.2 A/AA) and 9 documented defects (5 high priority) with evidence.
 
 ## Em números
 
@@ -13,6 +13,7 @@ Projeto de QA para a loja virtual **[DemoBlaze](https://www.demoblaze.com)**: hi
 |---|---|
 | **20** casos de teste escritos antes da execução | **18** testes E2E automatizados ativos |
 | **9** incidentes registrados, **5** de prioridade alta | **7** testes que já descrevem o comportamento correto dos defeitos |
+| **7** telas e modais auditados quanto à acessibilidade | **10** verificações manuais de acessibilidade (teclado, leitor de tela, zoom) |
 
 ## Principais defeitos encontrados
 
@@ -26,6 +27,13 @@ Projeto de QA para a loja virtual **[DemoBlaze](https://www.demoblaze.com)**: hi
 | [BUG-006](docs/bugs/BUG-006.md) | Compra permitida sem login | Média |
 
 [Ver todos os 9 incidentes](docs/bugs/README.md), cada um com passos para reproduzir, resultado esperado e obtido e sugestão de correção.
+
+## Acessibilidade
+
+Auditoria baseada na **WCAG 2.2 (níveis A e AA)**, em duas frentes ([acessibilidade.md](docs/acessibilidade.md)):
+
+- **Automática:** o [axe-core](https://github.com/dequelabs/axe-core) roda dentro dos testes Cypress em 7 telas e modais (página inicial, produto, carrinho, login, cadastro, contato e pedido). Cada violação é registrada com o impacto, o critério WCAG e os elementos afetados, e o resumo é publicado a cada execução na aba **Summary** do GitHub Actions.
+- **Manual:** checklist com navegação só pelo teclado, foco visível, leitor de tela (NVDA), zoom de 200% e uso de cor.
 
 ## Como os testes foram pensados
 
@@ -47,11 +55,12 @@ Projeto de QA para a loja virtual **[DemoBlaze](https://www.demoblaze.com)**: hi
 ```
 ├── .github/workflows/ci.yml     # lint e testes E2E a cada push, com relatório
 ├── cypress/
-│   ├── e2e/                     # catálogo, carrinho, compra, conta e contato
+│   ├── e2e/                     # catálogo, carrinho, compra, conta, contato e acessibilidade
+│   ├── plugins/                 # geração do resumo de acessibilidade
 │   └── support/
-│       ├── commands.js          # comandos de alto nível (adicionar ao carrinho, finalizar pedido...)
+│       ├── commands.js          # comandos de alto nível (adicionar ao carrinho, auditar acessibilidade...)
 │       └── pages.js             # seletores (Page Objects)
-└── docs/                        # histórias, casos de teste, plano, relatório e bugs
+└── docs/                        # histórias, casos de teste, plano, acessibilidade e bugs
 ```
 
 ## Como rodar
@@ -59,12 +68,13 @@ Projeto de QA para a loja virtual **[DemoBlaze](https://www.demoblaze.com)**: hi
 ```bash
 npm ci
 npm test          # roda tudo no Chrome
+npm run test:a11y  # só a auditoria de acessibilidade
 npm run cy:open   # modo interativo
 npm run lint
 ```
 
 ## Autora
 
-**Ranya Greco**, QA Engineer · Engenheira de Software (UFC) e mestranda em Ciência da Computação (UFCG).
+**Ranya Duran Greco**, QA Engineer · Engenheira de Software (UFC) e mestranda em Ciência da Computação (UFCG).
 
-[GitHub](https://github.com/RanyaG) · ranyagreco@gmail.com
+[GitHub](https://github.com/RanyaG) · [LinkedIn](https://www.linkedin.com/in/ranya-greco-qa/) · ranyagreco@gmail.com
