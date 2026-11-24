@@ -66,4 +66,19 @@ O resumo é gerado em `cypress/acessibilidade/resumo.md`.
 
 ## Resultados
 
-Os resultados da auditoria automática são atualizados a cada execução da CI, na aba **Summary** do [GitHub Actions](https://github.com/RanyaG/demoblaze-cypress-qa/actions). Os problemas confirmados são registrados em [docs/bugs](bugs/README.md) com o prefixo **A11Y**, indicando o critério WCAG violado, o impacto para o usuário e a sugestão de correção.
+Auditoria automática executada no GitHub Actions em novembro de 2026:
+
+| Tela | Violações | Elementos | Problemas |
+|---|---|---|---|
+| Página inicial | 3 | 29 | A11Y-001, A11Y-002, A11Y-004 |
+| Página de produto | 3 | 5 | A11Y-001, A11Y-002, A11Y-004 |
+| Carrinho | 2 | 3 | A11Y-001, A11Y-004 |
+| Modal de login | 2 | 5 | A11Y-003, A11Y-004 |
+| Modal de cadastro | 1 | 3 | A11Y-004 |
+| Modal de contato | 2 | 5 | A11Y-003, A11Y-004 |
+| Modal de finalização do pedido | 0 | 0 | - |
+| **Total** | **13** | **50** | 5 críticas e 8 sérias |
+
+Os problemas foram agrupados por causa em 4 bug reports, em [docs/bugs](bugs/README.md#acessibilidade-wcag-22), com o critério WCAG violado, o impacto para o usuário e a sugestão de correção. O resultado de cada nova execução aparece na aba **Summary** do [GitHub Actions](https://github.com/RanyaG/demoblaze-cypress-qa/actions).
+
+O checklist manual ainda não foi executado e será registrado aqui.

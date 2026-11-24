@@ -15,3 +15,14 @@ Encontrados nos testes de caixa-preta da loja. Os testes automatizados de cada d
 | [RNI-001](RNI-001.md) | Não existe busca de produtos (requisito não implementado) | Alta | CT-1.2 / T02 |
 
 **Resumo:** 9 incidentes registrados, 5 de prioridade alta (BUG-001, BUG-002, BUG-003, BUG-004 e RNI-001).
+
+## Acessibilidade (WCAG 2.2)
+
+Encontrados na auditoria automática com axe-core ([acessibilidade.md](../acessibilidade.md)): **13 violações** em 6 das 7 telas auditadas, somando **50 elementos**, agrupadas em 4 problemas.
+
+| ID | Problema | Critério WCAG | Impacto | Prioridade |
+|---|---|---|---|---|
+| [A11Y-001](A11Y-001.md) | Imagens do cabeçalho sem texto alternativo | 1.1.1 (A) | Crítico | Alta |
+| [A11Y-002](A11Y-002.md) | Links sem nome acessível nos cards de produto | 2.4.4 e 4.1.2 (A) | Sério | Alta |
+| [A11Y-003](A11Y-003.md) | Campos dos modais de login e de contato sem rótulo | 4.1.2 (A) | Crítico | Alta |
+| [A11Y-004](A11Y-004.md) | Contraste insuficiente em preços, botões e títulos | 1.4.3 (AA) | Sério | Média |

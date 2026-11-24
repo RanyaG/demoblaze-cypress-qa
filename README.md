@@ -13,7 +13,7 @@ Projeto de QA para a loja virtual **[DemoBlaze](https://www.demoblaze.com)**: hi
 |---|---|
 | **20** casos de teste escritos antes da execução | **18** testes E2E automatizados ativos |
 | **9** incidentes registrados, **5** de prioridade alta | **7** testes que já descrevem o comportamento correto dos defeitos |
-| **7** telas e modais auditados quanto à acessibilidade | **10** verificações manuais de acessibilidade (teclado, leitor de tela, zoom) |
+| **7** telas e modais auditados quanto à acessibilidade | **4** problemas de acessibilidade (WCAG 2.2) em **50** elementos |
 
 ## Principais defeitos encontrados
 
@@ -34,6 +34,13 @@ Auditoria baseada na **WCAG 2.2 (níveis A e AA)**, em duas frentes ([acessibili
 
 - **Automática:** o [axe-core](https://github.com/dequelabs/axe-core) roda dentro dos testes Cypress em 7 telas e modais (página inicial, produto, carrinho, login, cadastro, contato e pedido). Cada violação é registrada com o impacto, o critério WCAG e os elementos afetados, e o resumo é publicado a cada execução na aba **Summary** do GitHub Actions.
 - **Manual:** checklist com navegação só pelo teclado, foco visível, leitor de tela (NVDA), zoom de 200% e uso de cor.
+
+| ID | Problema | Critério WCAG | Impacto |
+|---|---|---|---|
+| [A11Y-001](docs/bugs/A11Y-001.md) | Imagens do cabeçalho sem texto alternativo | 1.1.1 (A) | Crítico |
+| [A11Y-002](docs/bugs/A11Y-002.md) | Links sem nome acessível nos cards de produto | 2.4.4 e 4.1.2 (A) | Sério |
+| [A11Y-003](docs/bugs/A11Y-003.md) | Campos dos modais de login e de contato sem rótulo | 4.1.2 (A) | Crítico |
+| [A11Y-004](docs/bugs/A11Y-004.md) | Contraste insuficiente em preços, botões e títulos | 1.4.3 (AA) | Sério |
 
 ## Como os testes foram pensados
 
