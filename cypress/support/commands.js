@@ -93,3 +93,45 @@ Cypress.Commands.add('entrarPelaTela', (usuario, senha) => {
   if (senha) cy.preencher(conta.senhaLogin, senha);
   conta.botaoEntrar().click();
 });
+
+/**
+ * Auditoria automática de acessibilidade com axe-core (WCAG 2.2, níveis A e AA).
+ * Injeta o axe na página, roda as regras e registra as violações no resumo
+ * (cypress/acessibilidade/resumo.md). Não falha o teste: funciona como uma auditoria,
+ * e os problemas encontrados viram bug reports, como os defeitos funcionais.
+ * Uso: cy.auditarAcessibilidade('Página inicial') ou, só dentro de um modal,
+ *      cy.auditarAcessibilidade('Modal de login', '.modal.show').
+ */
+const REGRAS_WCAG = {
+  runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] },
+  resultTypes: ['violations'],
+};
+
+Cypress.Commands.add('auditarAcessibilidade', (pagina, contexto) => {
+  if (contexto) {
+    // Espera a animação do modal terminar, para o contraste não ser medido no meio do fade.
+    cy.get(contexto).should('be.visible').and('have.css', 'opacity', '1');
+  }
+
+  cy.task('lerAxe', null, { log: false }).then((codigoDoAxe) =>
+    cy.window({ log: false }).then({ timeout: 30000 }, (win) => {
+      if (!win.axe) win.eval(codigoDoAxe);
+      const alvo = contexto ? win.document.querySelector(contexto) : win.document;
+      return win.axe.run(alvo, REGRAS_WCAG);
+    }),
+  ).then((resultado) => {
+    const violacoes = resultado.violations.map(({ id, impact, help, helpUrl, tags, nodes }) => ({
+      id,
+      impact,
+      help,
+      helpUrl,
+      tags,
+      nodes: nodes.map(({ target, html }) => ({ target, html })),
+    }));
+
+    violacoes.forEach((v) =>
+      Cypress.log({ name: 'a11y', message: `${v.impact} | ${v.id} | ${v.nodes.length} elemento(s)` }),
+    );
+    cy.task('registrarAcessibilidade', { pagina, violacoes }, { log: false });
+  });
+});
