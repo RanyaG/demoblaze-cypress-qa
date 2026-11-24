@@ -37,9 +37,17 @@ jobs:
           key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - run: npm ci
       - run: npm test
+      - name: Resumo de acessibilidade
+        if: always()
+        run: |
+          if [ -f cypress/acessibilidade/resumo.md ]; then
+            cat cypress/acessibilidade/resumo.md >> "$GITHUB_STEP_SUMMARY"
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: relatorio-e2e
-          path: cypress/reports
+          path: |
+            cypress/reports
+            cypress/acessibilidade
           if-no-files-found: ignore
